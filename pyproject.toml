@@ -1,0 +1,20 @@
+[project]
+name = "bionn"
+version = "0.1.0"
+description = "Benchmark suite comparing biological neural networks (Cortical Labs DishBrain) against conventional AI baselines"
+requires-python = ">=3.11"
+dependencies = [
+    "cl-sdk>=0.29.0",
+    "numpy>=2.0",
+    "scipy>=1.14",
+    "matplotlib>=3.9",
+    "pyyaml>=6.0",
+    "networkx>=3.0",
+    "python-louvain>=0.16",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[project.scripts]
+bionn = "scripts.run_all:main"

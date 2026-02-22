@@ -1,0 +1,75 @@
+# BioNN Benchmark Suite Configuration
+
+general:
+  seeds: [42, 123, 456, 789, 1024]
+  results_dir: results
+  num_channels: 8
+  num_patterns: 4
+
+models:
+  - mlp
+  - bnn
+  - snn
+  - online
+
+benchmarks:
+  classification:
+    max_epochs: 15
+    trials_per_epoch: 16
+    target_accuracy: 0.75
+    noise_during_training: 0.05
+
+  temporal:
+    sequence_length: 4
+    max_epochs: 20
+    trials_per_epoch: 16
+    noise_during_training: 0.05
+
+  adaptation:
+    pre_train_epochs: 8
+    re_adapt_epochs: 10
+    trials_per_epoch: 16
+    target_accuracy: 0.75
+    noise_during_training: 0.05
+
+  noise:
+    train_epochs: 8
+    eval_trials_per_level: 16
+    noise_levels: [0.0, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0]
+    noise_during_training: 0.05
+
+  sample_efficiency:
+    budgets_per_class: [1, 2, 4, 8, 16, 32, 64]
+    eval_trials: 16
+    competence_threshold: 0.60
+
+  continual:
+    task_a_epochs: 8
+    task_b_epochs: 8
+    trials_per_epoch: 16
+    noise_during_training: 0.05
+
+bnn:
+  stim_threshold: 0.3
+  stim_amplitude_max: 200
+  stim_amplitude_min: 20
+  stim_quanta: 20
+  read_ticks: 30
+  read_tps: 1000
+  learning_rate: 0.03
+  weight_min: 0.01
+  weight_max: 2.0
+  num_readout_channels: 64
+  record: true
+
+neuro_analysis:
+  firing_stats_bin_sec: 1.0
+  burst_bin_sec: 0.1
+  burst_onset_hz: 5.0
+  burst_offset_hz: 2.0
+  connectivity_bin_sec: 0.5
+  connectivity_threshold: 0.6
+  criticality_bin_sec: 0.01
+  criticality_percentile: 75.0
+  lzc_bin_sec: 0.5
+  entropy_bin_sec: 0.5
