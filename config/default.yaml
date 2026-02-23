@@ -49,6 +49,21 @@ benchmarks:
     trials_per_epoch: 16
     noise_during_training: 0.05
 
+  consciousness:
+    pci_stim_channels: [0, 1, 2, 3]
+    pci_stim_amplitude: 200
+    pci_response_ms: 500
+    pci_bin_ms: 10
+    pci_repeats: 10
+    spontaneous_duration_ms: 2000
+    phi_partitions: 5
+    phi_stim_trials: 20
+    criticality_duration_ms: 5000
+    criticality_bin_ms: 10
+    causal_stim_channels: 8
+    causal_response_ms: 200
+    causal_significance_threshold: 0.05
+
 bnn:
   stim_threshold: 0.3
   stim_amplitude_max: 200
