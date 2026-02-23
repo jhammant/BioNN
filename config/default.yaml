@@ -50,6 +50,7 @@ benchmarks:
     noise_during_training: 0.05
 
   consciousness:
+    # Original measures
     pci_stim_channels: [0, 1, 2, 3]
     pci_stim_amplitude: 200
     pci_response_ms: 500
@@ -63,6 +64,25 @@ benchmarks:
     causal_stim_channels: 8
     causal_response_ms: 200
     causal_significance_threshold: 0.05
+    
+    # Arsiwalla & Verschure (2018) measures
+    neural_complexity_duration_ms: 1000
+    neural_complexity_bin_ms: 50
+    granger_causality_duration_ms: 2000
+    granger_causality_bin_ms: 20
+    granger_max_lag: 3
+    stochastic_phi_duration_ms: 1500
+    stochastic_phi_bin_ms: 30
+    stochastic_phi_max_partitions: 8
+    synergistic_phi_duration_ms: 1200
+    synergistic_phi_bin_ms: 40
+    synergistic_phi_max_triplets: 8
+    permutation_entropy_duration_ms: 1000
+    permutation_entropy_bin_ms: 25
+    permutation_entropy_order: 3
+    transfer_entropy_duration_ms: 1500
+    transfer_entropy_bin_ms: 30
+    transfer_entropy_bins: 10
 
 bnn:
   stim_threshold: 0.3
