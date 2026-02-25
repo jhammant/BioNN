@@ -16,6 +16,10 @@ from bionn.metrics.neuro import analyse_recording
 from bionn.metrics.task import aggregate_metric, learning_curve_auc
 from bionn.models import MODELS
 from bionn.reporting.plots import (
+    plot_complexity_phase_portrait,
+    plot_complexity_trajectory,
+    plot_consciousness_indicators,
+    plot_flicker_raster,
     plot_learning_curves,
     plot_noise_degradation,
     plot_sample_efficiency,
@@ -124,6 +128,11 @@ def run_suite(cfg: dict) -> dict[str, Any]:
         plot_noise_degradation(all_results["noise"], plots_dir)
     if "sample_efficiency" in all_results:
         plot_sample_efficiency(all_results["sample_efficiency"], plots_dir)
+    if "complexity" in all_results:
+        plot_complexity_trajectory(all_results["complexity"], plots_dir)
+        plot_consciousness_indicators(all_results["complexity"], plots_dir)
+        plot_flicker_raster(all_results["complexity"], plots_dir)
+        plot_complexity_phase_portrait(all_results["complexity"], plots_dir)
 
     # Summary radar
     summary = _build_summary(all_results)
@@ -155,6 +164,7 @@ def _build_summary(
         "noise": ("noise_tolerance_threshold", False),
         "sample_efficiency": ("samples_to_competence", True),  # lower is better
         "continual": ("forgetting_rate", True),  # lower is better
+        "complexity": ("consciousness_score", False),
     }
 
     raw: dict[str, dict[str, float]] = {}

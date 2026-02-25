@@ -20,13 +20,16 @@ class OnlineModel(BaseModel):
         rng = np.random.RandomState(seed)
         self.W = rng.randn(self.n_in, self.n_out) * 0.3
         self.b = np.zeros(self.n_out)
+        self._last_activity = np.zeros(self.n_out)
 
     def _softmax(self, x: np.ndarray) -> np.ndarray:
         e = np.exp(x - x.max())
         return e / e.sum()
 
     def train_step(self, pattern: np.ndarray, target: int, **kwargs) -> int:
-        probs = self._softmax(pattern @ self.W + self.b)
+        z = pattern @ self.W + self.b
+        self._last_activity = z
+        probs = self._softmax(z)
         pred = int(np.argmax(probs))
         oh = np.zeros(self.n_out)
         oh[target] = 1
@@ -36,5 +39,10 @@ class OnlineModel(BaseModel):
         return int(pred == target)
 
     def predict(self, pattern: np.ndarray, **kwargs) -> int:
-        probs = self._softmax(pattern @ self.W + self.b)
+        z = pattern @ self.W + self.b
+        self._last_activity = z
+        probs = self._softmax(z)
         return int(np.argmax(probs))
+
+    def get_internal_activity(self) -> np.ndarray:
+        return self._last_activity

@@ -33,3 +33,7 @@ class BaseModel(ABC):
     @abstractmethod
     def reset(self, seed: int) -> None:
         """Re-initialise weights with the given seed."""
+
+    def get_internal_activity(self) -> np.ndarray:
+        """Return the most recent internal activity vector (spikes, activations, etc.)."""
+        return np.empty(0)

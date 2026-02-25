@@ -26,6 +26,7 @@ class SNNModel(BaseModel):
         rng = np.random.RandomState(seed)
         self.W_in = rng.randn(self.n_in, self.n_hid) * 0.3
         self.W_out = rng.randn(self.n_hid, self.n_out) * 0.3
+        self._last_activity = np.zeros(self.n_hid)
 
     def _run(self, pattern: np.ndarray) -> np.ndarray:
         v_hid = np.zeros(self.n_hid)
@@ -37,6 +38,7 @@ class SNNModel(BaseModel):
             spikes = v_hid >= self.thresh
             spike_count += spikes
             v_hid[spikes] = self.reset_v
+        self._last_activity = spike_count
         return spike_count
 
     def _logits(self, spike_count: np.ndarray) -> np.ndarray:
@@ -58,3 +60,6 @@ class SNNModel(BaseModel):
     def predict(self, pattern: np.ndarray, **kwargs) -> int:
         sc = self._run(pattern)
         return int(np.argmax(self._logits(sc)))
+
+    def get_internal_activity(self) -> np.ndarray:
+        return self._last_activity

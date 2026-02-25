@@ -36,6 +36,7 @@ class BNNModel(BaseModel):
     def reset(self, seed: int) -> None:
         rng = np.random.RandomState(seed)
         self.W = rng.uniform(0.1, 0.5, (self.n_readout, self.n_out))
+        self._last_activity = np.zeros(self.n_readout)
 
     def _stim_and_read(self, neurons: cl.Neurons, pattern: np.ndarray) -> np.ndarray:
         for ch in range(self.n_in):
@@ -47,6 +48,7 @@ class BNNModel(BaseModel):
             for s in tick.analysis.spikes:
                 if s.channel < self.n_readout:
                     sc[s.channel] += 1
+        self._last_activity = sc
         return sc
 
     def train_step(self, pattern: np.ndarray, target: int, **kwargs) -> int:
@@ -65,3 +67,6 @@ class BNNModel(BaseModel):
         neurons = kwargs["neurons"]
         sc = self._stim_and_read(neurons, pattern)
         return int(np.argmax(sc @ self.W))
+
+    def get_internal_activity(self) -> np.ndarray:
+        return self._last_activity

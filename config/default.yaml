@@ -49,6 +49,16 @@ benchmarks:
     trials_per_epoch: 16
     noise_during_training: 0.05
 
+  complexity:
+    spontaneous_trials: 32
+    train_epochs: 15
+    trials_per_epoch: 16
+    learned_trials: 32
+    noise_during_training: 0.05
+    binarise_threshold: 0.5
+    flicker_lzc_low: 0.3
+    flicker_lzc_high: 0.7
+
 bnn:
   stim_threshold: 0.3
   stim_amplitude_max: 200

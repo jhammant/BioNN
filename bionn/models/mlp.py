@@ -23,10 +23,12 @@ class MLPModel(BaseModel):
         self.b1 = np.zeros(self.n_hid)
         self.W2 = rng.randn(self.n_hid, self.n_out) * 0.3
         self.b2 = np.zeros(self.n_out)
+        self._last_activity = np.zeros(self.n_hid)
 
     def _forward(self, x: np.ndarray) -> np.ndarray:
         self._z1 = x @ self.W1 + self.b1
         self._a1 = np.maximum(0, self._z1)
+        self._last_activity = self._a1
         z2 = self._a1 @ self.W2 + self.b2
         e = np.exp(z2 - z2.max())
         self._probs = e / e.sum()
@@ -48,3 +50,6 @@ class MLPModel(BaseModel):
     def predict(self, pattern: np.ndarray, **kwargs) -> int:
         self._forward(pattern)
         return int(np.argmax(self._probs))
+
+    def get_internal_activity(self) -> np.ndarray:
+        return self._last_activity

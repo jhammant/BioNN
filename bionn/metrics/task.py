@@ -45,3 +45,31 @@ def significance_test(
         return {"t_stat": None, "p_value": None}
     t, p = stats.ttest_ind(values_a, values_b, equal_var=False)
     return {"t_stat": float(t), "p_value": float(p)}
+
+
+def lempel_ziv_complexity(binary_array: np.ndarray) -> float:
+    """LZ76 complexity of a binary sequence, normalised to [0, 1].
+
+    Returns 0.0 for constant sequences, ~1.0 for random sequences.
+    """
+    s = (binary_array.ravel() > 0).astype(np.uint8)
+    n = len(s)
+    if n == 0:
+        return 0.0
+    i, k, l, c = 0, 1, 1, 1
+    while k < n:
+        if s[k] != s[k - l]:
+            # Extend the current component
+            k += 1
+            l = k - i
+        else:
+            k += 1
+            if k - i > l:
+                # New word found
+                c += 1
+                i += l
+                l = 1
+    c += 1  # last component
+    # Normalise by n / log2(n) — theoretical upper bound for random binary
+    norm = n / np.log2(n) if n > 1 else 1.0
+    return float(min(c / norm, 1.0))
